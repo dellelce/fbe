@@ -5,6 +5,10 @@
   File:    stats.c
   Created: 040718
 
+  TODO:
+  * Currently all file is handled as a single unit
+  * It should split in fixed blocks
+
 */
 
 // includes
@@ -28,6 +32,9 @@ main (int argc, char **argv)
  // lowers
  unsigned short lowers[16];
  unsigned short lower = { 0 };
+
+ // averages
+ unsigned short avg = 0;
 
  // basic sanity check
  if (argv[1] == NULL || argv[1][0] == 0) { printf("missing filename\n"); return 1; }
