@@ -1,4 +1,4 @@
-/* 
+/*
 
   Basic file statistics
 
@@ -10,15 +10,14 @@
   * It should split in fixed blocks
 
 */
-
 // includes
 
 #include <stdio.h>
 
-// main
+// functions
 
-int
-main (int argc, char **argv)
+void
+stats_file(char *name)
 {
  unsigned int charCount[256] = { 0 };
  FILE *fp;
@@ -36,10 +35,9 @@ main (int argc, char **argv)
  // averages
  unsigned short avg = 0;
 
- // basic sanity check
- if (argv[1] == NULL || argv[1][0] == 0) { printf("missing filename\n"); return 1; }
- 
- fp = fopen(argv[1], "rb");
+ fp = fopen(name, "rb");
+
+ if (fp == NULL) return;
 
  while ((ch = fgetc(fp)) != EOF)
  {
@@ -71,9 +69,18 @@ main (int argc, char **argv)
    printf("lower %d %d\n", cnt, lowers[cnt]);
  }
 
- fflush(stdout);
  fclose(fp);
- // generic return
+}
+
+// main
+
+int
+main (int argc, char **argv)
+{
+ // basic sanity check
+ if (argv[1] == NULL || argv[1][0] == 0) { printf("missing filename\n"); return 1; }
+
+ stats_file(argv[1]);
 
  return 0;
 }
