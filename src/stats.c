@@ -10,10 +10,12 @@
   * It should split in fixed blocks
 
 */
-// includes
+
 
 #include <stdio.h>
 #include <math.h>
+
+#include "fbe.h"
 
 // functions
 
@@ -55,23 +57,14 @@ byte_weight(short byte)
    report some statistics abot a single file
 */
 void
-stats_file(char *name)
+stats_file(char *name, unsigned int segment_size)
 {
- unsigned int charCount[256] = { 0 };
  FILE *fp;
  int ch; // this must be signed as EOF is defined as -1 (TODO: check Posix spec)
  unsigned int cnt = 0;
- // keep track of upper 4 bits: TODO: check endianity issues at byte level
- // zone is defined as "upper nibble" (or first 4 bits)
- unsigned short zones[16];
- unsigned short zone = { 0 };
 
- // lowers
- unsigned short lowers[16];
- unsigned short lower = { 0 };
-
- // total bits
- unsigned long total_bits = 0;
+ //
+ fbe_stats_summary_t  summary = { 0 };
 
  // averages - not needed now
  //unsigned short avg = 0;
@@ -82,50 +75,50 @@ stats_file(char *name)
 
  while ((ch = fgetc(fp)) != EOF)
  {
-   //printf("%c\n", ch);
    cnt += 1;
-   charCount[ch] = charCount[ch] + 1;
+   summary.charCount[ch] = summary.charCount[ch] + 1;
 
-   zone = (ch >> 4);
-   zones[zone] = zones[zone] + 1;
+   summary.zone = (ch >> 4);
+   summary.zones[summary.zone] = summary.zones[summary.zone] + 1;
 
-   lower = ch & 0x0F;
-   lowers[lower] = lowers[lower] + 1;
+   summary.lower = ch & 0x0F;
+   summary.lowers[summary.lower] = summary.lowers[summary.lower] + 1;
 
-   total_bits += byte_weight(ch);
+   summary.total_bits += byte_weight(ch);
  }
 
  printf("Count = %d\n", cnt);
- printf("Total bits = %ld\n", total_bits);
- printf("Avg bits = %lf\n", (double)total_bits/(double)cnt);
+ printf("Total bits = %ld\n", summary.total_bits);
+ printf("Avg bits = %lf\n", (double)summary.total_bits/(double)cnt);
 
  for (cnt = 0; cnt <= 255; cnt = cnt + 1)
  {
-   printf("ch %d %d\n", cnt, charCount[cnt]);
+   printf("ch %d %d\n", cnt, summary.charCount[cnt]);
  }
 
  for (cnt = 0; cnt < 16; cnt = cnt + 1)
  {
-   printf("zone %d %d\n", cnt, zones[cnt]);
+   printf("zone %d %d\n", cnt, summary.zones[cnt]);
  }
 
  for (cnt = 0; cnt < 16; cnt = cnt + 1)
  {
-   printf("lower %d %d\n", cnt, lowers[cnt]);
+   printf("lower %d %d\n", cnt, summary.lowers[cnt]);
  }
 
  fclose(fp);
 }
 
-// main
 
+// main
 int
 main (int argc, char **argv)
 {
  // basic sanity check
  if (argv[1] == NULL || argv[1][0] == 0) { printf("missing filename\n"); return 1; }
 
- stats_file(argv[1]);
+ // main code
+ stats_file(argv[1], 1024);
 
  return 0;
 }
