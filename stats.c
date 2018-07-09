@@ -61,7 +61,7 @@ stats_file(char *name)
  FILE *fp;
  int ch; // this must be signed as EOF is defined as -1 (TODO: check Posix spec)
  unsigned int cnt = 0;
- // keep track of upper 4 bits: TODO: checked endianity issues at byte level
+ // keep track of upper 4 bits: TODO: check endianity issues at byte level
  // zone is defined as "upper nibble" (or first 4 bits)
  unsigned short zones[16];
  unsigned short zone = { 0 };
