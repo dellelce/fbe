@@ -1,0 +1,3 @@
+#
+INCLUDES=". includes"
+SRC_DIR="src"
