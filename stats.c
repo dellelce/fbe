@@ -32,8 +32,8 @@ stats_file(char *name)
  unsigned short lowers[16];
  unsigned short lower = { 0 };
 
- // averages
- unsigned short avg = 0;
+ // averages - not needed now
+ //unsigned short avg = 0;
 
  fp = fopen(name, "rb");
 
