@@ -23,7 +23,7 @@
    this really should be done for a segment/block
 */
 
-static unsigned short _weight[16] =
+static unsigned short _nibble_weight[16] =
 {
  0,  // 0000
  1,  // 0001
@@ -46,7 +46,7 @@ static unsigned short _weight[16] =
 unsigned short // returns 0-8
 byte_weight(short byte)
 {
- return _weight[(byte&0xF)] + _weight[(byte>>4)];
+ return _nibble_weight[(byte&0xF)] + _nibble_weight[(byte>>4)];
 }
 
 /*
