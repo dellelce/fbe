@@ -13,9 +13,47 @@
 // includes
 
 #include <stdio.h>
+#include <math.h>
 
 // functions
 
+/*
+   byte_weight
+
+   this really should be done for a segment/block
+*/
+
+static unsigned short _weight[16] =
+{
+ 0,  // 0000
+ 1,  // 0001
+ 1,  // 0010
+ 2,  // 0011
+ 1,  // 0100
+ 2,  // 0101
+ 2,  // 0110
+ 3,  // 0111
+ 1,  // 1000
+ 2,  // 1001
+ 2,  // 1010
+ 3,  // 1011
+ 2,  // 1100
+ 3,  // 1101
+ 3,  // 1110
+ 4   // 1111
+};
+
+unsigned short // returns 0-8
+byte_weight(short byte)
+{
+ return _weight[(byte&0xF)] + _weight[(byte>>4)];
+}
+
+/*
+   stats_file
+
+   report some statistics abot a single file
+*/
 void
 stats_file(char *name)
 {
@@ -31,6 +69,9 @@ stats_file(char *name)
  // lowers
  unsigned short lowers[16];
  unsigned short lower = { 0 };
+
+ // total bits
+ unsigned long total_bits = 0;
 
  // averages - not needed now
  //unsigned short avg = 0;
@@ -50,9 +91,13 @@ stats_file(char *name)
 
    lower = ch & 0x0F;
    lowers[lower] = lowers[lower] + 1;
+
+   total_bits += byte_weight(ch);
  }
 
  printf("Count = %d\n", cnt);
+ printf("Total bits = %ld\n", total_bits);
+ printf("Avg bits = %lf\n", (double)total_bits/(double)cnt);
 
  for (cnt = 0; cnt <= 255; cnt = cnt + 1)
  {
