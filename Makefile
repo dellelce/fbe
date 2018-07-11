@@ -7,8 +7,8 @@ TARGET         = target
 
 SHELL          = /bin/bash
 
-CFILES         = src/main.c src/stats.c
-OFILES         = obj/main.o obj/stats.o
+CFILES         = src/main.c src/segments.c src/stats.c
+OFILES         = obj/main.o obj/segments.o obj/stats.o
 LDFLAGS	       = 
 
 
@@ -38,6 +38,10 @@ $(TARGET):   $(OFILES)
 obj/main.o: src/main.c $(HFILES) includes/fbe.h
 	@echo "CC "src/main.c
 	@$(CC) -c $(CFLAGS) -o obj/main.o src/main.c
+
+obj/segments.o: src/segments.c $(HFILES) includes/fbe.h
+	@echo "CC "src/segments.c
+	@$(CC) -c $(CFLAGS) -o obj/segments.o src/segments.c
 
 obj/stats.o: src/stats.c $(HFILES) includes/fbe.h
 	@echo "CC "src/stats.c

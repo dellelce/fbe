@@ -18,15 +18,8 @@ typedef struct _fbe_stat_entry
  unsigned int    value;
 } fbe_stat_entry_t;
 
-typedef struct _fbe_stats
-{
- unsigned int        total;
- unsigned int        available;
- fbe_stat_entry_t   *entries;
-} fbe_stats_t;
-
-// summaries
-typedef struct _fbe_stats_summary
+// segment stats
+typedef struct _fbe_stats_segment
 {
  int            charCount[256];
 
@@ -41,11 +34,38 @@ typedef struct _fbe_stats_summary
 
  // total bits
  unsigned long total_bits;
-} fbe_stats_summary_t;
+
+ // total bytes
+ unsigned long total_bytes;
+} fbe_stats_segment_t;
+
+// each segment has its own statistics structure and "fbe_stats_t" keeps a pointer to it
+typedef struct _fbe_stats
+{
+  int                    segment_array_size;
+  int                    segment_array_used;
+  fbe_stats_segment_t  **segments;
+} fbe_stats_t;
+
+
+// default segment size
+#ifndef FBE_DEFAULT_SEGMENT_SIZE
+#define FBE_DEFAULT_SEGMENT_SIZE    2048
+#endif // FBE_DEFAULT_SEGMENT_SIZE
+
+// default number of segmens (when creating fbe_stats_t)
+#ifndef FBE_DEFAULT_SEGMENT_CNT
+#define FBE_DEFAULT_SEGMENT_CNT    128
+#endif // FBE_DEFAULT_SEGMENT_CNT
 
 
 // Prototypes
+void stats_file(char *name, unsigned int segment_size);
 
-void stats_file(char *name, unsigned int segment_size); // segment_size: unimplemented
+fbe_stats_t *fbe_stats_init(unsigned int nsegs);
+fbe_stats_segment_t *fbe_stats_new_segment(fbe_stats_t *stats);
+void fbe_stats_free(fbe_stats_t *stats);
+
+
 
 #endif // __FBE_H
