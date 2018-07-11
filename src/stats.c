@@ -60,14 +60,11 @@ void
 stats_file(char *name, unsigned int segment_size)
 {
  FILE *fp;
- int ch; // this must be signed as EOF is defined as -1 (TODO: check Posix spec)
+ int ch; // this must be signed as EOF is defined as -1
  unsigned int cnt = 0;
 
  //
  fbe_stats_summary_t  summary = { 0 };
-
- // averages - not needed now
- //unsigned short avg = 0;
 
  fp = fopen(name, "rb");
 
@@ -115,7 +112,7 @@ int
 main (int argc, char **argv)
 {
  // basic sanity check
- if (argv[1] == NULL || argv[1][0] == 0) { printf("missing filename\n"); return 1; }
+ if (argc < 2) { printf("missing filename\n"); return 1; }
 
  // main code
  stats_file(argv[1], 1024);
