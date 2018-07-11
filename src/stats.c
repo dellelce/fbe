@@ -63,10 +63,16 @@ stats_file(char *name, unsigned int segment_size)
  int ch; // this must be signed as EOF is defined as -1
  unsigned int cnt = 0;
 
- //
  fbe_stats_summary_t  summary = { 0 };
 
- fp = fopen(name, "rb");
+ if (name == NULL)
+ {
+  fp = stdin;
+ }
+ else
+ {
+  fp = fopen(name, "rb");
+ }
 
  if (fp == NULL) return;
 

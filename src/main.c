@@ -13,10 +13,14 @@ int
 main (int argc, char **argv)
 {
  // basic sanity check
- if (argc < 2) { printf("missing filename\n"); return 1; }
-
- // main code
- stats_file(argv[1], 1024);
+ if (argc < 2)
+ {
+   stats_file(NULL, 1024);
+ }
+ else
+ {
+   stats_file(argv[1], 1024);
+ }
 
  return 0;
 }
