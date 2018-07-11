@@ -9,7 +9,7 @@
 #ifndef __FBE_H
 #define __FBE_H 1
 
-// statistics structures
+// statistics structures - WIP
 
 typedef struct _fbe_stat_entry
 {
@@ -26,7 +26,6 @@ typedef struct _fbe_stats
 } fbe_stats_t;
 
 // summaries
-
 typedef struct _fbe_stats_summary
 {
  int            charCount[256];
@@ -45,5 +44,8 @@ typedef struct _fbe_stats_summary
 } fbe_stats_summary_t;
 
 
+// Prototypes
+
+void stats_file(char *name, unsigned int segment_size); // segment_size: unimplemented
 
 #endif // __FBE_H

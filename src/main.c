@@ -5,8 +5,8 @@
 
 */
 
-
 #include "fbe.h"
+#include <stdio.h>
 
 // main
 int
