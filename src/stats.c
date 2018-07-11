@@ -106,18 +106,4 @@ stats_file(char *name, unsigned int segment_size)
  fclose(fp);
 }
 
-
-// main
-int
-main (int argc, char **argv)
-{
- // basic sanity check
- if (argc < 2) { printf("missing filename\n"); return 1; }
-
- // main code
- stats_file(argv[1], 1024);
-
- return 0;
-}
-
 // ** EOF **
