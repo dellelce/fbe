@@ -62,6 +62,7 @@ stats_file(char *name, unsigned int segment_size)
  FILE *fp;
  int ch; // this must be signed as EOF is defined as -1
  unsigned int cnt = 0;
+ unsigned short rc = 0;
 
  fbe_stats_summary_t  summary = { 0 };
 
@@ -96,17 +97,27 @@ stats_file(char *name, unsigned int segment_size)
 
  for (cnt = 0; cnt <= 255; cnt = cnt + 1)
  {
-   printf("ch %d %d\n", cnt, summary.charCount[cnt]);
+   printf(" ch %3d %6d", cnt, summary.charCount[cnt]);
+   rc += 1;
+   if (rc == 6) { printf("\n"); rc = 0; }
  }
+
+ if (rc != 0) { printf("\n"); rc = 0; }
 
  for (cnt = 0; cnt < 16; cnt = cnt + 1)
  {
-   printf("zone %d %d\n", cnt, summary.zones[cnt]);
+   printf(" zone %3d %6d", cnt, summary.zones[cnt]);
+   rc += 1;
+   if (rc == 6) { printf("\n"); rc = 0; }
  }
+
+ if (rc != 0) { printf("\n"); rc = 0; }
 
  for (cnt = 0; cnt < 16; cnt = cnt + 1)
  {
-   printf("lower %d %d\n", cnt, summary.lowers[cnt]);
+   printf(" low %3d %6d", cnt, summary.lowers[cnt]);
+   rc += 1;
+   if (rc == 6) { printf("\n"); rc = 0; }
  }
 
  fclose(fp);
