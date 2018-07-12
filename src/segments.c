@@ -7,6 +7,7 @@
 
 #include "fbe.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -99,9 +100,10 @@ fbe_stats_new_segment(fbe_stats_t *stats)
    fbe_stats_segment_print
 */
 void
-fbe_stats_segment_print(fbe_stats_segments_t *stats)
+fbe_stats_segment_print(fbe_stats_segment_t *stats)
 {
  unsigned int cnt = stats->total_bytes;
+ unsigned short rc = 0;
 
  printf("Count = %d\n", cnt);
  printf("Total bits = %ld\n", stats->total_bits);
@@ -127,7 +129,7 @@ fbe_stats_segment_print(fbe_stats_segments_t *stats)
 
  for (cnt = 0; cnt < 16; cnt = cnt + 1)
  {
-   printf(" low %3d %6d", cnt, stats->lowers[cnt]);
+   printf(" low  %3d %6d", cnt, stats->lowers[cnt]);
    rc += 1;
    if (rc == 6) { printf("\n"); rc = 0; }
  }

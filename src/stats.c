@@ -62,8 +62,6 @@ stats_file(char *name, unsigned int segment_size)
  FILE *fp;
  int ch; // this must be signed as EOF is defined as -1
  unsigned int cnt = 0;
- unsigned short rc = 0;
-
  fbe_stats_segment_t  summary = { 0 };
 
  if (name == NULL)
