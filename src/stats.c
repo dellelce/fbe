@@ -91,34 +91,9 @@ stats_file(char *name, unsigned int segment_size)
    summary.total_bits += byte_weight(ch);
  }
 
- printf("Count = %d\n", cnt);
- printf("Total bits = %ld\n", summary.total_bits);
- printf("Avg bits = %lf\n", (double)summary.total_bits/(double)cnt);
+ summary.total_bytes = cnt;
 
- for (cnt = 0; cnt <= 255; cnt = cnt + 1)
- {
-   printf(" ch %3d %6d", cnt, summary.charCount[cnt]);
-   rc += 1;
-   if (rc == 6) { printf("\n"); rc = 0; }
- }
-
- if (rc != 0) { printf("\n"); rc = 0; }
-
- for (cnt = 0; cnt < 16; cnt = cnt + 1)
- {
-   printf(" zone %3d %6d", cnt, summary.zones[cnt]);
-   rc += 1;
-   if (rc == 6) { printf("\n"); rc = 0; }
- }
-
- if (rc != 0) { printf("\n"); rc = 0; }
-
- for (cnt = 0; cnt < 16; cnt = cnt + 1)
- {
-   printf(" low %3d %6d", cnt, summary.lowers[cnt]);
-   rc += 1;
-   if (rc == 6) { printf("\n"); rc = 0; }
- }
+ fbe_stats_segment_print(&summary);
 
  fclose(fp);
 }

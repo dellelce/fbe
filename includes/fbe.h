@@ -65,7 +65,6 @@ void stats_file(char *name, unsigned int segment_size);
 fbe_stats_t *fbe_stats_init(unsigned int nsegs);
 fbe_stats_segment_t *fbe_stats_new_segment(fbe_stats_t *stats);
 void fbe_stats_free(fbe_stats_t *stats);
-
-
+void fbe_stats_segment_print(fbe_stats_segments_t *stats);
 
 #endif // __FBE_H

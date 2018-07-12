@@ -95,5 +95,42 @@ fbe_stats_new_segment(fbe_stats_t *stats)
  return seg;
 }
 
+/*
+   fbe_stats_segment_print
+*/
+void
+fbe_stats_segment_print(fbe_stats_segments_t *stats)
+{
+ unsigned int cnt = stats->total_bytes;
+
+ printf("Count = %d\n", cnt);
+ printf("Total bits = %ld\n", stats->total_bits);
+ printf("Avg bits = %lf\n", (double)stats->total_bits/(double)cnt);
+
+ for (cnt = 0; cnt <= 255; cnt = cnt + 1)
+ {
+   printf(" ch %3d %6d", cnt, stats->charCount[cnt]);
+   rc += 1;
+   if (rc == 6) { printf("\n"); rc = 0; }
+ }
+
+ if (rc != 0) { printf("\n"); rc = 0; }
+
+ for (cnt = 0; cnt < 16; cnt = cnt + 1)
+ {
+   printf(" zone %3d %6d", cnt, stats->zones[cnt]);
+   rc += 1;
+   if (rc == 6) { printf("\n"); rc = 0; }
+ }
+
+ if (rc != 0) { printf("\n"); rc = 0; }
+
+ for (cnt = 0; cnt < 16; cnt = cnt + 1)
+ {
+   printf(" low %3d %6d", cnt, stats->lowers[cnt]);
+   rc += 1;
+   if (rc == 6) { printf("\n"); rc = 0; }
+ }
+}
 
 // ** EOF **
