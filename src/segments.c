@@ -41,13 +41,28 @@ fbe_stats_init(unsigned int nsegs)
 void
 fbe_stats_free(fbe_stats_t *stats)
 {
-  /* steps:
+ int pos;
+ fbe_stats_segment_t *seg;
 
-     1. free every segment in stats->segment
-     2. free stats->segment (array of pointers)
-     3. free main stats object
+ /* steps:
 
-  */
+    1. free every segment in stats->segment
+    2. free stats->segment (array of pointers)
+    3. free main stats object
+
+ */
+
+ if (stats == NULL) return;
+ if (stats->segments == NULL) return;
+
+ while (pos >= 0)
+ {
+  seg = stats->segments[pos];
+
+  if (seg != NULL) free(seg);
+ }
+
+ free (stats->segments);
 }
 
 /*
@@ -73,6 +88,7 @@ fbe_stats_new_segment(fbe_stats_t *stats)
    /*
       must:
          resize segment
+      re-use one of new segments
    */
  }
 
