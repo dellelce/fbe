@@ -161,6 +161,8 @@ fbe_stats_segment_print(fbe_stats_segment_t *stats)
    rc += 1;
    if (rc == FBE_PRINT_COLUMNS) { printf("\n"); rc = 0; }
  }
+
+ if (rc>0) printf("\n");
 }
 
 // ** EOF **
