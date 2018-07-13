@@ -58,6 +58,7 @@ stats_file(char *name, unsigned int segment_size)
  FILE *fp;
  int ch; // this must be signed as EOF is defined as -1
  unsigned int cnt = 0;
+ unsigned int isPrinted = 0; // we need this for the "last" segment
  fbe_stats_t          *stats;
  fbe_stats_segment_t  *summary;
 
@@ -77,6 +78,7 @@ stats_file(char *name, unsigned int segment_size)
 
  while ((ch = fgetc(fp)) != EOF)
  {
+   isPrinted = 0;
    cnt += 1;
    summary->charCount[ch] = summary->charCount[ch] + 1;
 
@@ -87,11 +89,24 @@ stats_file(char *name, unsigned int segment_size)
    summary->lowers[summary->lower] = summary->lowers[summary->lower] + 1;
 
    summary->total_bits += byte_weight(ch);
+
+   if (cnt == segment_size)
+   {
+     summary->total_bytes = cnt;
+     fbe_stats_segment_print(summary);
+     cnt = 0;
+     summary = fbe_stats_new_segment(stats);
+     isPrinted = 1;
+   }
  }
 
- summary->total_bytes = cnt;
+ if (isPrinted == 0)
+ {
+   printf("Last segment size = %d\n", cnt);
+   summary->total_bytes = cnt;
 
- fbe_stats_segment_print(summary);
+   fbe_stats_segment_print(summary);
+ }
 
  fbe_stats_free(stats); // summary is "cleaned" here as well
 
