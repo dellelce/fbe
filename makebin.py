@@ -7,9 +7,39 @@
 
 
 class binspec(object):
+  """
+  Use a kind of RPN language with two stacks (data, commands) and two registers (state, accumulator)
+  To  generate a binary file
+
+  *WIP*
+
+  Commands:
+
+   pop    remove top from data stack
+   xor    xor top from stack with accumulator
+   or
+   and
+   n:      nibble commands TBD
+   n:copy
+   n:copywithstep
+   n:range
+   add
+   minus
+   reverse
+
+
+  Data types:
+
+   * strings (single or double quotes we don't care)
+   * hex objects (0x....)
+   * integer (anything else starting with 1-9 that works with python int()
+  """
 
   def __init__(self, name):
     """Read specification from file."""
+    self.stack = []
+    self.bytes = 0
+
     with open(name) as f:
       _lines = f.readlines()
 
@@ -22,12 +52,20 @@ class binspec(object):
     """Use number of lines only, for now at least."""
     return 'binspec({} lines)'.format(len(self.lines))
 
+  def getbyte(self):
+    """Get byte from buffer of if exhausted re-generate following instructions"""
+    pass
+
   def write(self, name, nbytes):
     """Write nbytes to file using current specification."""
     pass
 
+  def _process(self):
+    """Process configuration in some sort of bytecode"""
+
 
 if __name__ == '__main__':
+  # test only here
   bs = binspec('test.binspec')
   print(bs)
 
