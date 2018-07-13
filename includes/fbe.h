@@ -21,22 +21,25 @@ typedef struct _fbe_stat_entry
 // segment stats
 typedef struct _fbe_stats_segment
 {
- int            charCount[256];
+ int             charCount[256];
 
- // keep track of upper 4 bits: TODO: check endianity issues at byte level
+ // keep track of upper 4 bits: TODO: check endianness issues at byte level
  // zone is defined as "upper nibble" (or first 4 bits)
- unsigned short zones[16];
- unsigned short zone;
+ unsigned short  zones[16];
+ unsigned short  zone;
 
  // lowers
- unsigned short lowers[16];
- unsigned short lower;
+ unsigned short  lowers[16];
+ unsigned short  lower;
 
  // total bits
- unsigned long total_bits;
+ unsigned long   total_bits;
 
  // total bytes
- unsigned long total_bytes;
+ unsigned long   total_bytes;
+
+ // id
+ unsigned int    id;
 } fbe_stats_segment_t;
 
 // each segment has its own statistics structure and "fbe_stats_t" keeps a pointer to it
@@ -58,6 +61,10 @@ typedef struct _fbe_stats
 #define FBE_DEFAULT_SEGMENT_CNT    128
 #endif // FBE_DEFAULT_SEGMENT_CNT
 
+
+#ifndef FBE_PRINT_COLUMNS
+#define FBE_PRINT_COLUMNS    6
+#endif // FBE_PRINT_COLUMNS
 
 // Prototypes
 void stats_file(char *name, unsigned int segment_size);

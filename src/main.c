@@ -1,8 +1,6 @@
 /*
-
   File:    main.c
   Created: 110718
-
 */
 
 #include "fbe.h"
