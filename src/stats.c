@@ -61,6 +61,9 @@ stats_file(char *name, unsigned int segment_size)
  unsigned int isPrinted = 0; // we need this for the "last" segment
  fbe_stats_t          *stats;
  fbe_stats_segment_t  *summary;
+ // delta
+ unsigned int previous = 0;
+ int delta;
 
  stats = fbe_stats_init(0); // 0 = default
  summary = fbe_stats_new_segment(stats);
@@ -89,6 +92,21 @@ stats_file(char *name, unsigned int segment_size)
    summary->lowers[summary->lower] = summary->lowers[summary->lower] + 1;
 
    summary->total_bits += byte_weight(ch);
+
+   if (cnt > 1) /* are we after the first byte */
+   {
+    delta = previous - ch;
+
+    if (delta != 0)
+    {
+     if (delta > 0)
+     { /* increase by 1 */ summary->total_deltas += 1; }
+     else
+     { /* decrease by 1 */ summary->total_deltas -= 1; }
+    }
+    else { /* do nothing */ }
+   }
+   else { /* save previous */ previous = ch; }
 
    if (cnt == segment_size)
    {

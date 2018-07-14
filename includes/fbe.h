@@ -38,6 +38,9 @@ typedef struct _fbe_stats_segment
  // total bytes
  unsigned long   total_bytes;
 
+ // sum of all deltas
+ long            total_deltas;
+
  // id
  unsigned int    id;
 } fbe_stats_segment_t;
@@ -53,14 +56,13 @@ typedef struct _fbe_stats
 
 // default segment size
 #ifndef FBE_DEFAULT_SEGMENT_SIZE
-#define FBE_DEFAULT_SEGMENT_SIZE    2048
+#define FBE_DEFAULT_SEGMENT_SIZE    4096
 #endif // FBE_DEFAULT_SEGMENT_SIZE
 
 // default number of segmens (when creating fbe_stats_t)
 #ifndef FBE_DEFAULT_SEGMENT_CNT
 #define FBE_DEFAULT_SEGMENT_CNT    128
 #endif // FBE_DEFAULT_SEGMENT_CNT
-
 
 #ifndef FBE_PRINT_COLUMNS
 #define FBE_PRINT_COLUMNS    6

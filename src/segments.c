@@ -133,9 +133,12 @@ fbe_stats_segment_print(fbe_stats_segment_t *stats)
  unsigned int cnt = stats->total_bytes;
  unsigned short rc = 0;
 
- printf("Count = %d\n", cnt);
- printf("Total bits = %ld\n", stats->total_bits);
- printf("Avg bits = %lf\n", (double)stats->total_bits/(double)cnt);
+ printf("Count = %6d Total deltas = %6ld Total bits = %6lu Avg bits = %lf\n",
+        cnt,
+        stats->total_deltas,
+        stats->total_bits,
+        (double)stats->total_bits/(double)cnt
+       );
 
  for (cnt = 0; cnt <= 255; cnt = cnt + 1)
  {
