@@ -29,9 +29,9 @@ typedef struct __stack_int
 {
  /* body */
 
- void       *slice;
- unsigned int sliceNum;
- unsigned int sliceSize;
+ void          *slice;
+ unsigned int   sliceNum;
+ unsigned int   sliceSize;
 
 } stack_int_t;
 
