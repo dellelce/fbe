@@ -51,13 +51,7 @@ fbe_stats_free(fbe_stats_t *stats)
  int pos = stats->segment_array_used;
  fbe_stats_segment_t *seg;
 
- /* steps:
-
-    1. free every segment in stats->segment
-    2. free stats->segment (array of pointers)
-    3. free main stats object
-
- */
+ /* sanity */
  if (stats == NULL) return;
  if (stats->segments == NULL) return;
 
@@ -81,9 +75,6 @@ fbe_stats_new_segment(fbe_stats_t *stats)
 {
  fbe_stats_segment_t *seg;
 
- /*
-       alloc new segment
- */
  seg = (fbe_stats_segment_t *) malloc (sizeof(fbe_stats_segment_t));
  if (seg == NULL) return NULL;
 
@@ -93,21 +84,12 @@ fbe_stats_new_segment(fbe_stats_t *stats)
  if (/*are slots available in stats->segments*/
      (stats->segment_array_size - stats->segment_array_used) != 0)
  {
-   /*
-       get index using stats->segment_array_used
-       update entry in stats->segments
-       increase stats->segment_array_used
-   */
    stats->segments[stats->segment_array_used] = seg;
    stats->segment_array_used += 1;
  }
  else
  {
-   /*
-      must:
-         resize segment
-      re-use one of new segments
-   */
+   /* segments exhausted * TODO: need to do more checks on new array */
    int newcnt = stats->segment_array_size * 2;
    fbe_stats_segment_t  **_segs;
 
@@ -133,6 +115,7 @@ fbe_stats_segment_print(fbe_stats_segment_t *stats)
  unsigned int cnt = stats->total_bytes;
  unsigned short rc = 0;
 
+ /* segment summary counters */
  printf("Count = %6d Total deltas = %6ld Total bits = %6lu Avg bits = %lf\n",
         cnt,
         stats->total_deltas,
