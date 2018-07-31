@@ -48,6 +48,28 @@ byte_weight(short byte)
 }
 
 /*
+   byte_stats
+*/
+
+void
+byte_stats(fbe_dist_reg_t *dist,
+           int             pos)
+{
+ if (dist->count == 0)
+ {
+   /* first entry in this distribution, do not calculate delta */
+   dist->count = 1;
+   dist->last  = pos;
+ }
+ else
+ {
+   dist->count += 1;
+   dist->last_delta = pos - dist->last_delta;
+   dist->last = pos;
+ }
+}
+
+/*
    stats_file
 
    report some statistics abot a single file
@@ -82,7 +104,7 @@ stats_file(char *name, unsigned int segment_size)
  while ((ch = fgetc(fp)) != EOF)
  {
    isPrinted = 0;
-   cnt += 1;
+   cnt += 1; // position processing segment
    summary->charCount[ch] = summary->charCount[ch] + 1;
 
    summary->zone = (ch >> 4);
@@ -92,6 +114,9 @@ stats_file(char *name, unsigned int segment_size)
    summary->lowers[summary->lower] = summary->lowers[summary->lower] + 1;
 
    summary->total_bits += byte_weight(ch);
+
+   // byte distribution
+   byte_stats(&summary->dist[ch],summary->charCount[ch]);
 
    if (cnt > 1) /* are we after the first byte */
    {
