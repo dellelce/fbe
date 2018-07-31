@@ -1,29 +1,31 @@
 /*
    fbe.h
 
-   Proper Description to come soon
-
-   Guidelines in WIP mode
+   Main header file
 */
 
 #ifndef __FBE_H
 #define __FBE_H 1
 
-// statistics structures - WIP
-
-typedef struct _fbe_stat_entry
+//
+// distribution register
+typedef struct _fbe_dist_reg
 {
- unsigned short  type;
- unsigned int    id;
- unsigned int    value;
-} fbe_stat_entry_t;
+  int     count;
+  int     last_delta;
+  int     last;        // last time item associated with this "reg" was found
+} fbe_dist_reg_t;
+
 
 // segment stats
 typedef struct _fbe_stats_segment
 {
  int             charCount[256];
 
- // keep track of upper 4 bits: TODO: check endianness issues at byte level
+ // keep stats about distribution of a single byte
+ fbe_dist_reg_t  dist[256];
+
+ // keep track of upper 4 bits
  // zone is defined as "upper nibble" (or first 4 bits)
  unsigned short  zones[16];
  unsigned short  zone;
@@ -45,14 +47,18 @@ typedef struct _fbe_stats_segment
  unsigned int    id;
 } fbe_stats_segment_t;
 
-// each segment has its own statistics structure and "fbe_stats_t" keeps a pointer to it
+/*
+
+ fbe_stats_t : Master structure
+
+ each segment has its own statistics structure and "fbe_stats_t" keeps a pointer to it
+*/
 typedef struct _fbe_stats
 {
   int                    segment_array_size;
   int                    segment_array_used;
   fbe_stats_segment_t  **segments;
 } fbe_stats_t;
-
 
 // default segment size
 #ifndef FBE_DEFAULT_SEGMENT_SIZE
@@ -65,7 +71,7 @@ typedef struct _fbe_stats
 #endif // FBE_DEFAULT_SEGMENT_CNT
 
 #ifndef FBE_PRINT_COLUMNS
-#define FBE_PRINT_COLUMNS    6
+#define FBE_PRINT_COLUMNS          6
 #endif // FBE_PRINT_COLUMNS
 
 // Prototypes
