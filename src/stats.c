@@ -48,11 +48,11 @@ byte_weight(short byte)
 }
 
 /*
-   byte_stats
+   bytes_distribution
 */
 
 void
-byte_stats(fbe_dist_reg_t *dist,
+bytes_distribution(fbe_dist_reg_t *dist,
            int             pos)
 {
  if (dist->count == 0)
@@ -116,7 +116,7 @@ stats_file(char *name, unsigned int segment_size)
    summary->total_bits += byte_weight(ch);
 
    // byte distribution
-   byte_stats(&summary->dist[ch],summary->charCount[ch]);
+   bytes_distribution(&summary->dist[ch],summary->charCount[ch]);
 
    if (cnt > 1) /* are we after the first byte */
    {
