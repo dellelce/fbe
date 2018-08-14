@@ -21,9 +21,8 @@
   Stacks are of fixed size and when you push an item the oldest item in the stack is removed
   So a push is two actual (update both bottom and top slice)
 
-  Removing the item from the bottom is the most expensive (as it may take  more steps...)
+  Removing the item from the bottom is the most expensive action (as it may take  more steps...)
 */
-
 
 typedef struct __stack_int
 {
@@ -32,7 +31,6 @@ typedef struct __stack_int
  void          *slice;
  unsigned int   sliceNum;
  unsigned int   sliceSize;
-
 } stack_int_t;
 
 
