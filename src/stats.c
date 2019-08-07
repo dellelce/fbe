@@ -1,12 +1,10 @@
 /*
-  Basic file statistics
+  Compute statistics
 
   File:    stats.c
   Created: 040718
 
   TODO:
-  * Currently all file is handled as a single unit
-  * It should split in fixed blocks
 */
 
 #include <stdio.h>
@@ -17,9 +15,9 @@
 // functions
 
 /*
-   byte_weight
+   byte_weight: count "ON" bits in a byte
 
-   this really should be done for a segment/block
+   TODO: this really should be done for a segment/block
 */
 static unsigned short _nibble_weight[16] =
 {
@@ -50,10 +48,9 @@ byte_weight(short byte)
 /*
    bytes_distribution
 */
-
 void
 bytes_distribution(fbe_dist_reg_t *dist,
-           int             pos)
+                   int             pos)
 {
  if (dist->count == 0)
  {
@@ -73,12 +70,13 @@ bytes_distribution(fbe_dist_reg_t *dist,
    stats_file
 
    report some statistics abot a single file
+
+   TODO: should be passed a buffer & pointer to fbe_stats_t
+         and renamed to gather_stats() or something
 */
 void
 stats_file(char *name, unsigned int segment_size)
 {
- FILE *fp;
- int ch; // this must be signed as EOF is defined as -1
  unsigned int cnt = 0;
  unsigned int isPrinted = 0; // we need this for the "last" segment
  fbe_stats_t          *stats;
@@ -86,18 +84,14 @@ stats_file(char *name, unsigned int segment_size)
  // delta
  unsigned int previous = 0;
  int delta;
+ FILE *fp;
+ int ch; // this must be signed as EOF is defined as -1
 
  stats = fbe_stats_init(0); // 0 = default
  summary = fbe_stats_new_segment(stats);
 
- if (name == NULL)
- {
-  fp = stdin;
- }
- else
- {
-  fp = fopen(name, "rb");
- }
+ // read from stdin if no file provided
+ if (name == NULL) { fp = stdin; } else { fp = fopen(name, "rb"); }
 
  if (fp == NULL) return;
 
@@ -107,16 +101,19 @@ stats_file(char *name, unsigned int segment_size)
    cnt += 1; // position processing segment
    summary->charCount[ch] = summary->charCount[ch] + 1;
 
+   // keep counter for each zone (=top nibble)
    summary->zone = (ch >> 4);
    summary->zones[summary->zone] = summary->zones[summary->zone] + 1;
 
+   // keep count for lower nibble
    summary->lower = ch & 0x0F;
    summary->lowers[summary->lower] = summary->lowers[summary->lower] + 1;
 
+   // counter for total bits
    summary->total_bits += byte_weight(ch);
 
    // byte distribution
-   bytes_distribution(&summary->dist[ch],summary->charCount[ch]);
+   bytes_distribution(&summary->dist[ch], summary->charCount[ch]);
 
    if (cnt > 1) /* are we after the first byte */
    {
@@ -124,12 +121,9 @@ stats_file(char *name, unsigned int segment_size)
 
     if (delta != 0)
     {
-     if (delta > 0)
-     { /* increase by 1 */ summary->total_deltas += 1; }
-     else
-     { /* decrease by 1 */ summary->total_deltas -= 1; }
+     // decrease or increase by 1 if delta is not zero
+     if (delta > 0) { summary->total_deltas += 1; } else { summary->total_deltas -= 1; }
     }
-    else { /* do nothing */ }
    }
    else { /* save previous */ previous = ch; }
 
@@ -141,7 +135,7 @@ stats_file(char *name, unsigned int segment_size)
      summary = fbe_stats_new_segment(stats);
      isPrinted = 1;
    }
- }
+ } // end read loop
 
  if (isPrinted == 0)
  {
