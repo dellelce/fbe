@@ -8,10 +8,11 @@
 
 class binspec(object):
     """
-    Use a kind of RPN language with two stacks (data, commands) and two registers (state, accumulator)
-    To  generate a binary file
+    Use an "RPN" language with:
 
-    *WIP*
+    * two stacks (data, commands) and
+    * two registers (state, accumulator)
+
 
     Commands:
 
@@ -42,16 +43,17 @@ class binspec(object):
             _lines = f.readlines()
 
             # read line ignoring comments - crudely for now
-            self.lines = \
-              [line for line in _lines
-               if line.lstrip().split()[0][0] != '#']
+            self.lines = [line.lstrip().split() for line in _lines]
+            self.lines = [
+                line for line in self.lines if len(line) > 0 and line[0] != '#'
+            ]
 
     def __repr__(self):
         """Use number of lines only, for now at least."""
         return 'binspec({} lines)'.format(len(self.lines))
 
     def getbyte(self):
-        """Get byte from buffer of if exhausted re-generate following instructions"""
+        """Get byte from buffer, if exhausted re-generate following instructions"""
         pass
 
     def write(self, name, nbytes):
@@ -67,5 +69,6 @@ if __name__ == '__main__':
     # test only here
     bs = binspec('test.binspec')
     print(bs)
+    print(bs.lines)
 
 ## EOF ##
