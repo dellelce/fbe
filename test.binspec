@@ -1,2 +1,6 @@
 # comment
 var 0xFF0L
+
+# another comment
+
+var second=0xFA0A
