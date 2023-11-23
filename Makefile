@@ -4,27 +4,21 @@
 
 CC             = gcc
 TARGET         = target
-
+DEBUG          =
 SHELL          = /bin/bash
-
 CFILES         = src/main.c src/print.c src/segments.c src/stats.c
 OFILES         = obj/main.o obj/print.o obj/segments.o obj/stats.o
-LDFLAGS	       = 
-
-
-LOC_HFILES     = 
+LDFLAGS	       =
+LOC_HFILES     =
 HFILES         = $(LOC_HFILES)
-
 INCLUDES       =  -I. -Iincludes
-DEBUG          = 
 CFLAGS         = -Wall -O2  $(INCLUDES) $(DEBUG)
-LIBS           = 
+LIBS           =
 
 
 #
 # --- RULES ---
 #
-
 all: $(TARGET)
 
 $(TARGET):   $(OFILES)
@@ -34,7 +28,6 @@ $(TARGET):   $(OFILES)
 #
 # -- DEPS --
 #
-
 obj/main.o: src/main.c $(HFILES) includes/fbe.h
 	@echo "CC "src/main.c
 	@$(CC) -c $(CFLAGS) -o obj/main.o src/main.c
@@ -51,17 +44,13 @@ obj/stats.o: src/stats.c $(HFILES) includes/fbe.h
 	@echo "CC "src/stats.c
 	@$(CC) -c $(CFLAGS) -o obj/stats.o src/stats.c
 
-
 #
 # clean
 #
-
 clean:
 	rm -f $(TARGET) $(OFILES) $(LOC_HFILES) *.exe
 
 #
 # redo
 #
-
 redo: clean all
-
