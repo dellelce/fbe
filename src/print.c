@@ -28,6 +28,7 @@ fbe_stats_segment_print(fbe_stats_segment_t *stats)
         (double)stats->total_bits/(double)cnt
        );
 
+ /* */
  for (cnt = 0; cnt <= 255; cnt = cnt + 1)
  {
    printf(" ch %3d %6d", cnt, stats->charCount[cnt]);
@@ -37,6 +38,7 @@ fbe_stats_segment_print(fbe_stats_segment_t *stats)
 
  if (rc != 0) { printf("\n"); rc = 0; }
 
+ /* */
  for (cnt = 0; cnt < 16; cnt = cnt + 1)
  {
    printf(" zone %3d %6d", cnt, stats->zones[cnt]);
