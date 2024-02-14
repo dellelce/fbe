@@ -57,7 +57,7 @@ class binspec:
         """Get byte from buffer, if exhausted re-generate following instructions"""
         pass
 
-    def write(self, name: str, nbytes: int):
+    def write(self, name: str, nbytes: int) -> None:
         """Write nbytes to file using current specification."""
         pass
 
