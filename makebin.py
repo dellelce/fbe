@@ -6,7 +6,7 @@
 """
 
 
-class binspec(object):
+class binspec:
     """
      Use an "RPN" language with:
 
@@ -35,7 +35,7 @@ class binspec(object):
     * integer (anything else starting with 1-9 that works with python int()
     """
 
-    def __init__(self, name):
+    def __init__(self, name: str) -> None:
         """Read specification from file."""
         self.stack = []
         self.bytes = 0
@@ -49,19 +49,19 @@ class binspec(object):
                 line for line in self.lines if len(line) > 0 and line[0] != "#"
             ]
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Use number of lines only, for now at least."""
         return "binspec({} lines)".format(len(self.lines))
 
-    def getbyte(self):
+    def getbyte(self) -> None:
         """Get byte from buffer, if exhausted re-generate following instructions"""
         pass
 
-    def write(self, name, nbytes):
+    def write(self, name: str, nbytes: int):
         """Write nbytes to file using current specification."""
         pass
 
-    def _process(self):
+    def _process(self) -> None:
         """Process configuration in some sort of bytecode"""
         pass
 
