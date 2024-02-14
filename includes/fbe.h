@@ -48,7 +48,6 @@ typedef struct _fbe_stats_segment
 } fbe_stats_segment_t;
 
 /*
-
  fbe_stats_t : Master structure
 
  each segment has its own statistics structure and "fbe_stats_t" keeps a pointer to it
@@ -63,16 +62,16 @@ typedef struct _fbe_stats
 // default segment size
 #ifndef FBE_DEFAULT_SEGMENT_SIZE
 #define FBE_DEFAULT_SEGMENT_SIZE    4096
-#endif // FBE_DEFAULT_SEGMENT_SIZE
+#endif
 
-// default number of segmens (when creating fbe_stats_t)
+// default number of segments (when creating fbe_stats_t)
 #ifndef FBE_DEFAULT_SEGMENT_CNT
 #define FBE_DEFAULT_SEGMENT_CNT    128
-#endif // FBE_DEFAULT_SEGMENT_CNT
+#endif
 
 #ifndef FBE_PRINT_COLUMNS
 #define FBE_PRINT_COLUMNS          6
-#endif // FBE_PRINT_COLUMNS
+#endif
 
 // Prototypes
 void stats_file(char *name, unsigned int segment_size);
