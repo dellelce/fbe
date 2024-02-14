@@ -5,6 +5,32 @@
  Created:      110718
 """
 
+from binascii import unhexlify
+from typing import BinaryIO
+
+
+class binfile:
+    """Perform operations on binary files."""
+
+    fh: BinaryIO = None
+    name: str = None
+
+    def __init__(self, name: str) -> None:
+        """Open file."""
+        self.fh = open(name, "wb")
+        self.name = name
+
+    def close(self) -> None:
+        if self.fh:
+            close(fh)
+
+    def __repr__(self) -> str:
+        return f"""binfile("{self.name}")"""
+
+    def writehex(self, block: str) -> None:
+        """Write hex sequence to file."""
+        return self.fh.write(unhexlify(block))
+
 
 class binspec:
     """
@@ -16,13 +42,13 @@ class binspec:
 
      Commands:
 
-      pop    remove top from data stack
-      xor    xor top from stack with accumulator
+      pop           remove top from data stack
+      xor           xor top from stack with accumulator
       or
       and
-      n:      nibble commands TBD
+      n:            nibble commands TBD
       n:copy
-      n:copywithstep
+      n:stepcopy
       n:range
       add
       minus
@@ -54,7 +80,7 @@ class binspec:
         return "binspec({} lines)".format(len(self.lines))
 
     def getbyte(self) -> None:
-        """Get byte from buffer, if exhausted re-generate following instructions"""
+        """Get byte from buffer, if exhausted re-generate following instructions."""
         pass
 
     def write(self, name: str, nbytes: int) -> None:
@@ -62,7 +88,7 @@ class binspec:
         pass
 
     def _process(self) -> None:
-        """Process configuration in some sort of bytecode"""
+        """Process configuration in some sort of bytecode."""
         pass
 
 
