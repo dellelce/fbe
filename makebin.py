@@ -8,32 +8,33 @@
 
 class binspec(object):
     """
-    Use an "RPN" language with:
+     Use an "RPN" language with:
 
-    * two stacks (data, commands) and
-    * two registers (state, accumulator)
+     * two stacks (data, commands) and
+     * two registers (state, accumulator)
 
 
-    Commands:
+     Commands:
 
-     pop    remove top from data stack
-     xor    xor top from stack with accumulator
-     or
-     and
-     n:      nibble commands TBD
-     n:copy
-     n:copywithstep
-     n:range
-     add
-     minus
-     reverse
+      pop    remove top from data stack
+      xor    xor top from stack with accumulator
+      or
+      and
+      n:      nibble commands TBD
+      n:copy
+      n:copywithstep
+      n:range
+      add
+      minus
+      reverse
 
-   Data types:
+    Data types:
 
-   * strings (single or double quotes we don't care)
-   * hex objects (0x....)
-   * integer (anything else starting with 1-9 that works with python int()
-   """
+    * strings (single or double quotes we don't care)
+    * hex objects (0x....)
+    * integer (anything else starting with 1-9 that works with python int()
+    """
+
     def __init__(self, name):
         """Read specification from file."""
         self.stack = []
@@ -45,12 +46,12 @@ class binspec(object):
             # read line ignoring comments - crudely for now
             self.lines = [line.lstrip().split() for line in _lines]
             self.lines = [
-                line for line in self.lines if len(line) > 0 and line[0] != '#'
+                line for line in self.lines if len(line) > 0 and line[0] != "#"
             ]
 
     def __repr__(self):
         """Use number of lines only, for now at least."""
-        return 'binspec({} lines)'.format(len(self.lines))
+        return "binspec({} lines)".format(len(self.lines))
 
     def getbyte(self):
         """Get byte from buffer, if exhausted re-generate following instructions"""
@@ -65,9 +66,9 @@ class binspec(object):
         pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # test only here
-    bs = binspec('test.binspec')
+    bs = binspec("test.binspec")
     print(bs)
     print(bs.lines)
 
